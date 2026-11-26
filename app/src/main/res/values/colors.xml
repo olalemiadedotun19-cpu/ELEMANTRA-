@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Same background colour the game page uses (#130b0f), so there is no flash on start-up. -->
+    <color name="elemantra_bg">#FF130B0F</color>
+</resources>

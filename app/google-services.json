@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "349807294495",
+    "firebase_url": "https://the-elemantra-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "the-elemantra",
+    "storage_bucket": "the-elemantra.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349807294495:android:89a1c153f97fa790a7fd2a",
+        "android_client_info": {
+          "package_name": "com.elemantra.game"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALXWekAVxTFDNl89yaOz6JOXoaMQAah8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

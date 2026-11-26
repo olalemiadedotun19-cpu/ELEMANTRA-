@@ -1,0 +1,18 @@
+# Gradle / Android Studio
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Signing material must never be committed
+*.jks
+*.keystore
+keystore.properties
+
+# Generated at build time by tools/vendor_web_deps.py (re-created on every Codemagic build)
+app/src/main/assets/vendor/files/
+app/src/main/assets/vendor/manifest.json
