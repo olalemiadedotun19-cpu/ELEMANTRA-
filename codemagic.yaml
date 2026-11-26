@@ -1,0 +1,62 @@
+# Codemagic CI/CD for ELEMANTRA (native Android app that hosts the game in a WebView).
+#
+# Two workflows:
+#   android-test-apk  -> installable APK for testing. Needs NO signing setup. Start with this one.
+#   android-release   -> signed APK + AAB for Google Play. Needs a keystore (see README.md).
+
+workflows:
+
+  android-test-apk:
+    name: ELEMANTRA - test APK (no signing setup)
+    instance_type: linux_x2
+    max_build_duration: 60
+    environment:
+      java: 17
+    cache:
+      cache_paths:
+        - ~/.gradle/caches
+    scripts:
+      - name: Point Gradle at the Android SDK
+        script: echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
+      - name: Bundle web libraries for offline play
+        script: python3 tools/vendor_web_deps.py
+      - name: Create Gradle wrapper
+        script: bash tools/ensure_gradle_wrapper.sh
+      - name: Build debug APK
+        script: ./gradlew --no-daemon assembleDebug
+    artifacts:
+      - app/build/outputs/apk/debug/*.apk
+
+  android-release:
+    name: ELEMANTRA - signed release (APK + AAB)
+    instance_type: linux_x2
+    max_build_duration: 90
+    environment:
+      java: 17
+      android_signing:
+        # Must match the "Reference name" you give the keystore in
+        # Codemagic > Teams > Code signing identities > Android keystores.
+        - elemantra_keystore
+    cache:
+      cache_paths:
+        - ~/.gradle/caches
+    scripts:
+      - name: Point Gradle at the Android SDK
+        script: echo "sdk.dir=$ANDROID_SDK_ROOT" > "$CM_BUILD_DIR/local.properties"
+      - name: Bundle web libraries for offline play
+        script: python3 tools/vendor_web_deps.py --strict
+      - name: Create Gradle wrapper
+        script: bash tools/ensure_gradle_wrapper.sh
+      - name: Build signed APK and AAB
+        script: ./gradlew --no-daemon assembleRelease bundleRelease
+    artifacts:
+      - app/build/outputs/apk/release/*.apk
+      - app/build/outputs/bundle/release/*.aab
+    # Optional: uncomment and edit to get the build by e-mail.
+    # publishing:
+    #   email:
+    #     recipients:
+    #       - you@example.com
+    #     notify:
+    #       success: true
+    #       failure: true
